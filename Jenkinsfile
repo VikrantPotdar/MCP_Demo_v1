@@ -55,6 +55,8 @@ pipeline {
         body: """
             <h2>Playwright Test Execution Report</h2>
             <p><b>Browser:</b> Chromium</p>
+            <p><a href="${env.BUILD_URL}allure/">View Allure Report</a></p>
+            <p><a href="${env.BUILD_URL}console">View Console Log</a></p>
         """,
         to: "vikrantpotdar69@gmail.com",
         mimeType: "text/html"
