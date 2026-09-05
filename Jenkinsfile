@@ -43,6 +43,7 @@ pipeline {
           commandline: 'allure',
           results: [[path: 'allure-results']]
         ])
+        powershell 'Compress-Archive -Path allure-report\\* -DestinationPath allure-report.zip -Force'
       }
     }
   }
@@ -58,6 +59,7 @@ pipeline {
         """,
         to: "vikrantpotdar69@gmail.com",
         mimeType: "text/html"
+        attachmentsPattern: "allure-report.zip"
       )
     }
     failure {
