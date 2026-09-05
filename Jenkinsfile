@@ -37,7 +37,12 @@ pipeline {
 
     stage('Generate Allure report') {
       steps {
-        powershell 'npx allure generate allure-results --clean -o allure-reports'
+        allure([
+          includeProperties: false,
+          jdk: '',
+          commandline: 'allure',
+          results: [[path: 'allure-results']]
+        ])
       }
     }
   }
