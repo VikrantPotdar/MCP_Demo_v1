@@ -43,7 +43,6 @@ pipeline {
           commandline: 'allure',
           results: [[path: 'allure-results']]
         ])
-        powershell 'Compress-Archive -Path allure-report\\* -DestinationPath allure-report.zip -Force'
       }
     }
   }
