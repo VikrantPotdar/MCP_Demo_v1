@@ -58,7 +58,6 @@ pipeline {
         """,
         to: "vikrantpotdar69@gmail.com",
         mimeType: "text/html"
-        attachmentsPattern: "allure-report.zip"
       )
     }
     failure {
