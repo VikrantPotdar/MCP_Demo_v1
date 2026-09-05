@@ -51,17 +51,17 @@ pipeline {
             <h2>Playwright Test Execution Report</h2>
             <p><b>Browser:</b> Chromium</p>
         """,
-        to: "vikrantpotdar69@gmail.com", //Replace with the recipient's email address
-        mimeType: "text/html" //Defines the format of the email body. text/html allows HTML formatting (tables, colors, bold text, links, etc.).
+        to: "vikrantpotdar69@gmail.com",
+        mimeType: "text/html"
       )
     }
     failure {
       echo 'Playwright tests failed. Check the generated artifacts for details.'
     }
-  }
-  success {
+    success {
       script {
         powershell 'Remove-Item -Recurse -Force allure-results'
       }
     }
+  }
 }
