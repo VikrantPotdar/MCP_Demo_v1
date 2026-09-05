@@ -8,6 +8,7 @@ pipeline {
   environment {
     NODE_ENV = 'test'
     CI = '1'
+    BROWSER = 'chromium'
   }
 
   stages {
@@ -31,12 +32,13 @@ pipeline {
 
     stage('Run Playwright tests') {
       steps {
-        powershell 'npx playwright test --project=chromium'
+        powershell "npx playwright test --project=${env.BROWSER}"
       }
     }
 
     stage('Generate Allure report') {
       steps {
+        powershell 'npx allure generate allure-results --clean -o allure-report'
         allure([
           includeProperties: false,
           jdk: '',
@@ -49,12 +51,15 @@ pipeline {
 
   post {
     always {
-      archiveArtifacts artifacts: 'allure-results/**,allure-reports/**,test-results/**', allowEmptyArchive: true
+      archiveArtifacts artifacts: 'allure-results/**, allure-report/**, test-results/**', allowEmptyArchive: true
       emailext(
-        subject: "Jenkins Build: 1",
+        subject: "Jenkins Build: ${env.JOB_NAME} #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
         body: """
             <h2>Playwright Test Execution Report</h2>
-            <p><b>Browser:</b> Chromium</p>
+            <p><b>Job:</b> ${env.JOB_NAME}</p>
+            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+            <p><b>Status:</b> ${currentBuild.currentResult}</p>
+            <p><b>Browser:</b> ${env.BROWSER}</p>
             <p><a href="${env.BUILD_URL}allure/">View Allure Report</a></p>
             <p><a href="${env.BUILD_URL}console">View Console Log</a></p>
         """,
